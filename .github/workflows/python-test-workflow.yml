@@ -20,6 +20,18 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest
 
-    - name: Run tests
+    - name: 🔍 テストファイルの一覧を表示
       run: |
-        pytest
+        ls -la ./test_*.py
+
+    - name: 🚀 テストの実行とレポート生成
+      run: |
+        # ファイル名を直接指定せず、pytestの自動検出に任せる形にしています
+        pytest --junitxml='test-report.xml'
+
+    - name: 📤 テストレポートを成果物として保存
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: python-test-report
+        path: test-report.xml
